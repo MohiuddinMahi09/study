@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>বোধ — বাংলা এআই</title>
+<style>
+:root{--green:#08a66a;--green2:#0fc07d;--deep:#075c48;--ink:#102a2e;
+      --muted:#7b8b90;--line:#e6ede9;--mint:#e9fbf2}
+*{box-sizing:border-box;margin:0}
+body{font-family:"Hind Siliguri","Noto Sans Bengali",system-ui,sans-serif;
+  color:var(--ink);min-height:100vh;padding:20px 16px;
+  background:radial-gradient(1100px 500px at 6% -10%,#e8fbf2,transparent 60%),
+             radial-gradient(800px 420px at 100% 0%,#eaf6ff,transparent 55%),#f6f8f7}
+.app{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+
+/* ---------- হেডার ---------- */
+.top{display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:11px}
+.logo{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--green),var(--green2));
+  box-shadow:0 10px 22px rgba(8,166,106,.3)}
+.logo svg{width:23px;height:23px;stroke:#fff;fill:none;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round}
+.brand h1{font-size:20px;font-weight:800;letter-spacing:-.4px;color:var(--deep)}
+.brand p{font-size:11.5px;color:var(--muted)}
+.spacer{flex:1}
+
+.switch{display:flex;gap:4px;padding:4px;background:#fff;border:1px solid var(--line);
+  border-radius:999px;box-shadow:0 6px 16px rgba(10,60,40,.05)}
+.switch button{border:0;background:transparent;border-radius:999px;padding:7px 14px;
+  font:600 12px inherit;color:var(--muted);cursor:pointer;transition:.2s}
+.switch button.on{background:linear-gradient(135deg,var(--green),var(--green2));
+  color:#fff;box-shadow:0 6px 14px rgba(8,166,106,.3)}
+
+.gear{width:40px;height:40px;border:1px solid var(--line);border-radius:13px;
+  background:#fff;display:grid;place-items:center;cursor:pointer;transition:.2s}
+.gear:hover{background:#f2f9f5;border-color:#c8ecda}
+.gear svg{width:19px;height:19px;stroke:var(--green);fill:none;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- সার্ভিস ---------- */
+.services{display:flex;gap:6px;padding:7px;background:#fff;border:1px solid var(--line);
+  border-radius:20px;overflow-x:auto;box-shadow:0 12px 30px rgba(10,60,40,.05)}
+.svc{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;border:0;
+  background:transparent;padding:11px 8px;border-radius:14px;font:600 13.5px inherit;
+  color:#546a70;cursor:pointer;white-space:nowrap;transition:.2s}
+.svc svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.9;
+  stroke-linecap:round;stroke-linejoin:round}
+.svc:hover{background:#f2f9f5;color:var(--deep)}
+.svc.on{background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;
+  box-shadow:0 8px 18px rgba(8,166,106,.28)}
+
+/* ---------- প্যানেল ---------- */
+.panel{display:none;flex-direction:column;gap:14px;padding:24px;background:#fff;
+  border:1px solid var(--line);border-radius:22px;
+  box-shadow:0 18px 40px rgba(10,60,40,.05)}
+.panel.on{display:flex;animation:fade .28s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}}
+.panel h2{font-size:17px;font-weight:800;color:var(--deep)}
+.panel .sub{font-size:13px;color:var(--muted);margin-top:-8px}
+
+textarea{flex:1;width:100%;min-height:clamp(260px,46vh,460px);padding:20px;
+  border:1px solid var(--line);border-radius:16px;background:#fbfdfc;
+  font:16px/1.85 inherit;color:inherit;resize:vertical;outline:none;transition:.2s}
+textarea:focus{border-color:#9fe3c4;background:#fff;
+  box-shadow:0 0 0 4px rgba(8,166,106,.08)}
+
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:#fff;padding:11px 20px;border-radius:12px;
+  font:600 14px inherit;color:#17424a;cursor:pointer;transition:.2s}
+.btn:hover{background:#f2f9f5;border-color:#c8ecda}
+.btn.primary{border:0;color:#fff;background:linear-gradient(135deg,var(--green),var(--green2));
+  box-shadow:0 8px 18px rgba(8,166,106,.25)}
+.btn.primary:hover{filter:brightness(1.06)}
+
+/* ---------- মাইক ---------- */
+.micwrap{flex:1;min-height:clamp(200px,34vh,320px);display:grid;place-items:center;
+  gap:16px;padding:24px;border-radius:16px;border:1px dashed #cfe6dc;
+  background:linear-gradient(180deg,#f5fdf9,#fbfdfc)}
+.micbtn{width:76px;height:76px;border:0;border-radius:50%;cursor:pointer;display:grid;
+  place-items:center;background:linear-gradient(135deg,var(--green),var(--green2));
+  box-shadow:0 14px 30px rgba(8,166,106,.35);transition:.25s}
+.micbtn:hover{transform:scale(1.05)}
+.micbtn.live{animation:pulse 1.4s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 14px rgba(8,166,106,.12)}}
+.micbtn svg{width:29px;height:29px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round}
+.wave{display:flex;align-items:center;gap:5px;height:26px}
+.wave span{width:4px;height:8px;border-radius:3px;background:#0fc07d;
+  animation:wave 1s infinite ease-in-out}
+.wave span:nth-child(2){animation-delay:.15s}
+.wave span:nth-child(3){animation-delay:.3s}
+.wave span:nth-child(4){animation-delay:.45s}
+.wave span:nth-child(5){animation-delay:.6s}
+@keyframes wave{0%,100%{height:8px}50%{height:24px}}
+
+/* ---------- OCR ---------- */
+.drop{flex:1;min-height:clamp(200px,34vh,320px);display:grid;place-items:center;
+  text-align:center;border:2px dashed #cfe6dc;border-radius:16px;background:#fbfdfc;
+  cursor:pointer;transition:.2s;padding:24px}
+.drop:hover{background:#f4fdf9;border-color:#9fe3c4}
+.drop svg{width:34px;height:34px;stroke:var(--green);fill:none;stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round;margin:0 auto}
+.drop p{margin-top:10px;font-size:13px;color:var(--muted)}
+.drop strong{color:var(--deep)}
+
+/* ---------- সেটিংস ড্রয়ার ---------- */
+.overlay{position:fixed;inset:0;background:rgba(10,40,30,.28);backdrop-filter:blur(2px);
+  opacity:0;visibility:hidden;transition:.25s;z-index:40}
+.overlay.on{opacity:1;visibility:visible}
+.drawer{position:fixed;top:0;right:0;height:100%;width:340px;max-width:88vw;z-index:50;
+  background:#fff;border-left:1px solid var(--line);padding:20px;overflow-y:auto;
+  transform:translateX(100%);transition:.32s cubic-bezier(.2,.8,.2,1);
+  box-shadow:-18px 0 40px rgba(10,60,40,.12)}
+.drawer.on{transform:translateX(0)}
+.dhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.dhead h3{font-size:16px;font-weight:800;color:var(--deep)}
+.dclose{border:0;background:#f2f9f5;color:var(--deep);width:30px;height:30px;
+  border-radius:10px;font:700 15px inherit;cursor:pointer}
+.dclose:hover{background:var(--mint)}
+
+.set-group{margin-bottom:18px}
+.set-group h4{font-size:11px;letter-spacing:.7px;text-transform:uppercase;
+  color:#9aa8ad;font-weight:700;margin-bottom:6px}
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:8px 0;border-bottom:1px dashed #eef3f1;font-size:13.5px;font-weight:600}
+.set-row:last-child{border-bottom:0}
+.set-row small{display:block;font-size:11px;color:var(--muted);font-weight:500;margin-top:1px}
+input[type=checkbox]{accent-color:var(--green);width:17px;height:17px;cursor:pointer;flex:none}
+select{width:130px;border:1px solid var(--line);border-radius:9px;padding:7px 9px;
+  font:600 12.5px inherit;color:#17424a;background:#fff;outline:none}
+input[type=range]{accent-color:var(--green);width:120px}
+
+@media(max-width:640px){
+  .svc span{display:none}
+  .svc{padding:12px 6px}
+  .panel{padding:18px}
+  .brand h1{font-size:17px}
+}
+</style>
+</head>
+<body>
+
+<svg style="position:absolute;width:0;height:0" aria-hidden="true"><defs>
+  <symbol id="i-spell" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></symbol>
+  <symbol id="i-grammar" viewBox="0 0 24 24"><path d="M4 6h16M4 12h11M4 18h7"/><circle cx="18" cy="17" r="2.5"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></symbol>
+  <symbol id="i-speak" viewBox="0 0 24 24"><path d="M4 10v4h3l4 3V7l-4 3H4z"/><path d="M16 9a4 4 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/></symbol>
+  <symbol id="i-ocr" viewBox="0 0 24 24"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M4 12h16"/></symbol>
+  <symbol id="i-lotus" viewBox="0 0 24 24"><path d="M12 3c2 2.4 3 4.6 3 6.6 0 1.9-1.3 3.1-3 3.1s-3-1.2-3-3.1C9 7.6 10 5.4 12 3Z"/><path d="M4 12.5c2 3.2 4.8 4.8 8 4.8s6-1.6 8-4.8"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+</defs></svg>
+
+<div class="app">
+
+  <header class="top">
+    <div class="brand">
+      <div class="logo"><svg><use href="#i-lotus"/></svg></div>
+      <div><h1>বোধ</h1><p>বাংলা এআই স্টুডিও</p></div>
+    </div>
+    <span class="spacer"></span>
+    <div class="switch" id="enc">
+      <button class="on" data-enc="ইউনিকোড">ইউনিকোড</button>
+      <button data-enc="আনসি">আনসি</button>
+    </div>
+    <button class="gear" id="openSet" title="সেটিংস"><svg><use href="#i-gear"/></svg></button>
+  </header>
+
+  <nav class="services">
+    <button class="svc on" data-p="p1"><svg><use href="#i-spell"/></svg><span>বানান</span></button>
+    <button class="svc" data-p="p2"><svg><use href="#i-grammar"/></svg><span>ব্যাকরণ</span></button>
+    <button class="svc" data-p="p3"><svg><use href="#i-mic"/></svg><span>কথা → লেখা</span></button>
+    <button class="svc" data-p="p4"><svg><use href="#i-speak"/></svg><span>লেখা → কথা</span></button>
+    <button class="svc" data-p="p5"><svg><use href="#i-ocr"/></svg><span>ওসিআর</span></button>
+  </nav>
+
+  <!-- ১. বানান -->
+  <section class="panel on" id="p1">
+    <h2>বানান যাচাই</h2>
+    <p class="sub">বাংলা লেখার বানান স্বয়ংক্রিয়ভাবে যাচাই ও সংশোধন করুন।</p>
+    <textarea placeholder="এখানে বাংলা লিখুন বা পেস্ট করুন..."></textarea>
+    <div class="row"><button class="btn primary">বানান যাচাই করুন</button></div>
+  </section>
+
+  <!-- ২. ব্যাকরণ -->
+  <section class="panel" id="p2">
+    <h2>ব্যাকরণ পরীক্ষা</h2>
+    <p class="sub">বাক্য গঠন, ক্রিয়ারূপ ও বিরামচিহ্নের ভুল ধরিয়ে দিন।</p>
+    <textarea placeholder="এখানে বাক্য লিখুন..."></textarea>
+    <div class="row"><button class="btn primary">ব্যাকরণ পরীক্ষা করুন</button></div>
+  </section>
+
+  <!-- ৩. কথা থেকে লেখা -->
+  <section class="panel" id="p3">
+    <h2>কথা থেকে লেখা</h2>
+    <p class="sub">মাইকে বলুন — বাংলা লেখায় রূপান্তর হবে।</p>
+    <div class="micwrap">
+      <button class="micbtn" id="mic"><svg><use href="#i-mic"/></svg></button>
+      <div class="wave"><span></span><span></span><span></span><span></span><span></span></div>
+    </div>
+    <div class="row"><button class="btn primary">রেকর্ডিং শুরু করুন</button></div>
+  </section>
+
+  <!-- ৪. লেখা থেকে কথা -->
+  <section class="panel" id="p4">
+    <h2>লেখা থেকে কথা</h2>
+    <p class="sub">যেকোনো বাংলা লেখা স্বাভাবিক কণ্ঠে শুনুন।</p>
+    <textarea placeholder="যে লেখাটি শুনতে চান তা লিখুন..."></textarea>
+    <div class="row"><button class="btn primary">▶ শুনুন</button></div>
+  </section>
+
+  <!-- ৫. ওসিআর -->
+  <section class="panel" id="p5">
+    <h2>ওসিআর — ছবি থেকে লেখা</h2>
+    <p class="sub">ছবি বা স্ক্যান করা পৃষ্ঠা থেকে বাংলা লেখা বের করুন।</p>
+    <label class="drop">
+      <div>
+        <svg><use href="#i-ocr"/></svg>
+        <p><strong>ছবি টেনে ছাড়ুন</strong> অথবা ক্লিক করে বেছে নিন</p>
+        <p>JPG, PNG, PDF — সর্বোচ্চ ১০ এমবি</p>
+      </div>
+      <input type="file" hidden accept="image/*,.pdf">
+    </label>
+    <div class="row"><button class="btn primary">লেখা বের করুন</button></div>
+  </section>
+
+</div>
+
+<!-- ---------- সেটিংস ---------- -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer">
+  <div class="dhead">
+    <h3>সেটিংস</h3>
+    <button class="dclose" id="closeSet">✕</button>
+  </div>
+
+  <div class="set-group">
+    <h4>সাধারণ</h4>
+    <div class="set-row">ইন্টারফেসের ভাষা
+      <select><option>বাংলা</option><option>English</option></select></div>
+    <div class="set-row">লেখার ধরন
+      <select><option>ইউনিকোড</option><option>আনসি</option></select></div>
+  </div>
+
+  <div class="set-group">
+    <h4>বানান</h4>
+    <div class="set-row"><span>স্বয়ংক্রিয় সংশোধন</span><input type="checkbox" checked></div>
+    <div class="set-row"><span>শব্দ প্রস্তাবনা</span><input type="checkbox"></div>
+    <div class="set-row"><span>নিজের অভিধান</span><input type="checkbox" checked></div>
+    <div class="set-row"><span>যুক্তবর্ণ যাচাই</span><input type="checkbox"></div>
+  </div>
+
+  <div class="set-group">
+    <h4>ব্যাকরণ</h4>
+    <div class="set-row"><span>বাক্য গঠন</span><input type="checkbox" checked></div>
+    <div class="set-row"><span>ক্রিয়ারূপ</span><input type="checkbox" checked></div>
+    <div class="set-row"><span>সন্ধি ও সমাস</span><input type="checkbox"></div>
+    <div class="set-row"><span>বিরামচিহ্ন</span><input type="checkbox"></div>
+  </div>
+
+  <div class="set-group">
+    <h4>কথা → লেখা</h4>
+    <div class="set-row">ভাষা
+      <select><option>বাংলা</option><option>ইংরেজি</option><option>মিশ্র</option></select></div>
+    <div class="set-row"><span>লাইভ প্রতিলিপি</span><input type="checkbox" checked></div>
+    <div class="set-row"><span>অটো বিরাম</span><input type="checkbox" checked></div>
+    <div class="set-row"><span>সময়-স্ট্যাম্প</span><input type="checkbox"></div>
+  </div>
+
+  <div class="set-group">
+    <h4>লেখা → কথা</h4>
+    <div class="set-row">কণ্ঠ
+      <select><option>নারী</option><option>পুরুষ</option></select></div>
+    <div class="set-row"><span>গতি</span><input type="range" min="0.5" max="2" step="0.1" value="1"></div>
+    <div class="set-row"><span>লম্বা লেখা</span><input type="checkbox" checked></div>
+    <div class="set-row"><span>অডিও ডাউনলোড</span><input type="checkbox"></div>
+  </div>
+
+  <div class="set-group">
+    <h4>ওসিআর</h4>
+    <div class="set-row"><span>হাতে লেখা</span><input type="checkbox" checked></div>
+    <div class="set-row"><span>টেবিল শনাক্ত</span><input type="checkbox" checked></div>
+    <div class="set-row"><span>একাধিক পৃষ্ঠা</span><input type="checkbox"></div>
+  </div>
+</aside>
+
+<script>
+  /* সার্ভিস বদল */
+  var svcs = document.querySelectorAll('.svc');
+  svcs.forEach(function (s) {
+    s.onclick = function () {
+      svcs.forEach(function (x) { x.classList.remove('on'); });
+      document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('on'); });
+      s.classList.add('on');
+      document.getElementById(s.dataset.p).classList.add('on');
+    };
+  });
+
+  /* ইউনিকোড / আনসি */
+  var enc = document.querySelectorAll('#enc button');
+  enc.forEach(function (b) {
+    b.onclick = function () {
+      enc.forEach(function (x) { x.classList.remove('on'); });
+      b.classList.add('on');
+    };
+  });
+
+  /* সেটিংস ড্রয়ার */
+  var drawer = document.getElementById('drawer');
+  var overlay = document.getElementById('overlay');
+  function toggleSet(open) {
+    drawer.classList.toggle('on', open);
+    overlay.classList.toggle('on', open);
+  }
+  document.getElementById('openSet').onclick = function () { toggleSet(true); };
+  document.getElementById('closeSet').onclick = function () { toggleSet(false); };
+  overlay.onclick = function () { toggleSet(false); };
+
+  /* মাইক */
+  document.getElementById('mic').onclick = function () {
+    this.classList.toggle('live');
+  };
+</script>
+</body>
+</html>
